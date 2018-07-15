@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Evalúa nuestro Chat</title>
+	<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
+	<link rel="stylesheet" href="dist/css/style_survey.css">
+</head>
+<body>
+	<div class="container">
+		<h5>Ayúdanos con esta breve encuesta para mejorar nuestra atención.</h5>
+			<div class="pregunta_uno pregunta">
+				<span><p>¿Cuán satisfecho estás con nuestro servicio de Chat?</p></span>
+				<input type="radio" class="radio radio_p1" id="radio1" value="1" name="radio_p1">
+				<label for="radio1">1</label>
+				<input type="radio" class="radio radio_p1" id="radio2" value="2" name="radio_p1">
+				<label for="radio2">2</label>
+				<input type="radio" class="radio radio_p1" id="radio3" value="3" name="radio_p1">
+				<label for="radio3">3</label>
+				<input type="radio" class="radio radio_p1" id="radio4" value="4" name="radio_p1">
+				<label for="radio4">4</label>
+				<input type="radio" class="radio radio_p1" id="radio5" value="5" name="radio_p1">
+				<label for="radio5">5</label>
+				<input type="radio" class="radio radio_p1" id="radio6" value="6" name="radio_p1">
+				<label for="radio6">6</label>
+				<input type="radio" class="radio radio_p1" id="radio7" value="7" name="radio_p1">
+				<label for="radio7">7</label>
+			</div>
+			<div class="pregunta_dos preguntas">
+				<span><p>¿Qué nota le pondría a la atención entregada por la ejecutiva?</p></span>
+				<input type="radio" class="radio radio_p2" id="radio8" value="1" name="radio_p2">
+				<label for="radio8">1</label>
+				<input type="radio" class="radio radio_p2" id="radio9" value="2" name="radio_p2">
+				<label for="radio9">2</label>
+				<input type="radio" class="radio radio_p2" id="radio10" value="3" name="radio_p2">
+				<label for="radio10">3</label>
+				<input type="radio" class="radio radio_p2" id="radio11" value="4" name="radio_p2">
+				<label for="radio11">4</label>
+				<input type="radio" class="radio radio_p2" id="radio12" value="5" name="radio_p2">
+				<label for="radio12">5</label>
+				<input type="radio" class="radio radio_p2" id="radio13" value="6" name="radio_p2">
+				<label for="radio13">6</label>
+				<input type="radio" class="radio radio_p2" id="radio14" value="7" name="radio_p2">
+				<label for="radio14">7</label>
+			</div>
+			<div class="pregunta_dos preguntas">
+				<span><p>¿Recomendarías el chat a otras personas?</p></span>
+				<input type="radio" id="radio15" value="1" name="radio_p3" style="visibility: hidden">
+				<label for="radio15"><img src="dist/images/like.png" alt=""></label>
+				<input type="radio" id="radio16" value="0" name="radio_p3" style="visibility: hidden">
+				<label for="radio16"><img src="dist/images/dislike.png" alt=""></label>
+			</div>
+			<!--FORMULARIO
+		<form action="https://was-habitat.crossnet.la/WebAPI802/Habitat_Chat/Survey/Survey_widget.jsp" method="post" id="encuestaHabitat">
+			<input type="hidden" name="userData[ParentID]" value="">
+			<input type="hidden" name="userData[P1]" value="">
+			<input type="hidden" name="userData[P2]" value="">
+			<input type="hidden" name="userData[P3]" value="">
+		</form>
+		-->
+		<button class="btn_encuesta" disabled onclick="submitSurvey()">Enviar encuesta</button>
+	</div>
+	<div class="confirmacion">
+		<h5>¡GRACIAS POR RESPONDER <br> NUESTRA ENCUESTA!</h5>
+	</div>
+	<script src="dist/js/jquery-3.3.1.min.js"></script>
+	<script>
+		
+
+		$("input[type=radio]").change(function(){
+			isTrue();
+		});
+
+		$(".confirmacion").hide();
+
+		/*$('input:radio[name=radio_p2]').change(function(){
+			$("input:radio[name=radio_p2]").next("label").find("img").css({"border": "none", "background": "white"})
+			$(this).next("label").find("img").css({"border": "1px solid #CECECE", "background": "rgb(206, 206, 206)"})
+		});
+
+		$('input:radio[name=radio_p3]').change(function(){
+			$("input:radio[name=radio_p3]").next("label").find("img").css({"border": "none", "background": "white"})
+			$(this).next("label").find("img").css({"border": "1px solid #CECECE", "background": "rgb(206, 206, 206)"})
+		});*/
+
+		function isTrue(){
+			var p1 = $('input:radio[name=radio_p1]:checked').val();
+			var p2 = $('input:radio[name=radio_p2]:checked').val();
+			var p3 = $('input:radio[name=radio_p3]:checked').val();
+			var isTrue = false;
+			if(p1 != undefined && p2 != undefined && p3 != undefined){
+				isTrue = true;
+				$(".btn_encuesta").removeAttr("disabled");
+				$(".btn_encuesta").css({"background": "#ffd200", 'color': 'black'});
+			}
+			return isTrue;
+		}
+
+		
+		$('input:radio[name=radio_p3]').change(function(){
+			$("input:radio[name=radio_p3]").next("label").find("img").css({"border": "none", "background": "white"})
+			$(this).next("label").find("img").css({"border": "1px solid #CECECE", "background": "rgb(206, 206, 206)"})
+		});
+
+		function submitSurvey(){
+			var settings = {
+			  "url": "https://gms-chile.crossnet.la/genesys/2/openmedia/CNLAB-encuesta",
+			  "method": "POST",
+			  "headers": {
+			  	"content-type": "application/x-www-form-urlencoded",
+			  },
+			  "data": {
+			    "userData[P1]": "Cuan satisfecho estas con nuestro servicio de Chat?",
+			    "userData[P2]": "Que nota le pondria a la atencion entregada por la ejecutiva?",
+			    "userData[P3]": "Resolvio su duda o consulta?",
+			    "userData[R1]": $('input:radio[name=radio_p1]:checked').val(),
+			    "userData[R2]": $('input:radio[name=radio_p2]:checked').val(),
+			    "userData[R3]": $('input:radio[name=radio_p3]:checked').val(),
+			    "userData[ChatId]": sessionStorage.getItem('chatID')
+			  }
+			}
+			$.ajax(settings).done(function (response) {
+			  console.log(response);
+			  confirmation()
+			});
+		}
+
+		function confirmation(){
+			$(".container").hide();
+			$(".confirmacion").show();
+		}
+	</script>
+</body>
+</html>

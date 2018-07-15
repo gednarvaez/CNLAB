@@ -1,0 +1,47 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+video {
+    border:1px solid gray;
+}
+.iniciar_webrtc{
+	background: #3cb5ff;
+	border-radius: 100%;
+	width: 70px;
+	height: 70px;
+	position: fixed;
+	bottom: 50%;
+	right: 50%;
+	border: none;
+	cursor: pointer;
+}
+.fa-video-camera{
+	color: white;
+	font-size: 3em;
+}
+#video_window{
+	background-color: rgba(0, 0, 0, 0.7);
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+.fa-times-circle-o{
+	position: fixed;
+	top: 40px;
+	right: 40px;
+	cursor: pointer
+}
+.fa-times-circle-o:hover{
+	color: white;
+}
+.fa-thumbs-up{
+	color: #14CD51;
+	opacity: 0;
+	-webkit-transition: opacity 2s; /* Safari */
+	transition: opacity 2s;
+}

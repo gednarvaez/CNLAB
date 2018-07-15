@@ -1,0 +1,53 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	height: 400px;
+}
+.cx-bot-transcript{
+	border: 1px solid #E1E1E1;
+	overflow: scroll;
+	padding: 24px;
+	transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); 
+	transition-duration: 0ms; 
+	transform: translate(0px, 0px) translateZ(0px);
+	font-size: 24px;
+	height: 350px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+.cx-bot-input{
+	display: flex;
+}
+
+#cx-userbot-input{
+	width: 80%;
+	margin: 5px;
+	padding: 5px;
+	height: 30px;
+	border: 1px solid #DAE1E8!important;
+}
+
+#cx-userbot-sendmessage{
+	width: 15%;
+	margin: 5px 10px;
+	padding: 5px 10px;
+	background-color: #ffd200!important;
+	color: black;
+	font-weight: bolder;
+	border: none;
+	border-radius: 5px;
+	font-size: .8rem;
+}
+

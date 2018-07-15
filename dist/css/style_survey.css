@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+*{
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+}
+body{
+	height: 100%
+}
+
+.btn_encuesta{
+	color: white;
+	width: 80%;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 0;
+	margin-top: 10px;
+	background-color:  #00448c;
+}
+body > div.container > h5{
+	color: #00448c;
+    font-size: 18px;
+    padding: 0px 0 10px;
+}
+
+.container span p{
+	font-weight: bolder;
+	color: #00448c;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.confirmacion{
+	height: 95vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b4123b;
+    font-size: 26px;
+}
+
+label img{
+	width: 13%;
+	cursor: pointer;
+}

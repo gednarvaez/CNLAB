@@ -1,0 +1,311 @@
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto', sans-serif !important;
+}
+
+
+.prueba1{
+	position: fixed;
+	right: -15px;
+	top: 30%;
+	padding: 5px 0;
+	border-radius: 10px 0 0 10px;
+	background-color: #ffd200;
+	color: #00448c;
+
+}
+.prueba1 img{
+	width: 50%;
+	-webkit-animation-duration: 1s;
+  	-webkit-animation-delay: 2s;
+  	-webkit-animation-iteration-count: 4;
+  	-moz-animation-duration: 1s;
+  	-moz-animation-delay: 2s;
+  	-moz-animation-iteration-count: 4;
+  	animation-duration: 1s;
+  	animation-delay: 2s;
+  	animation-iteration-count: 4;
+}
+
+body > div.cx-widget.ow-modal.cx-desktop.cx-theme-light > div{
+	background-color:  #ffd200 !important;
+	text-align: center !important;
+	color: #00448c !important;
+
+}
+.cx-channel{
+	background-color: white !important;
+}
+
+body > div.cx-widget.ow-modal.cx-desktop.cx-theme-light > div > div.cx-titlebar > div.cx-title,.cx-common-container .cx-titlebar{
+	font-weight: bolder !important;
+	color: #5081e1 !important;
+	
+}
+
+
+body > div.cx-widget.ow-modal.cx-desktop.cx-theme-light > div > div.cx-body > div > div{
+	width:  310px !important;
+
+}
+.cx-channel-selector .cx-channels .cx-channel{
+	width: 150px !important;
+}
+
+
+/****************************************estilos chat widget*****************************/
+.cx-common-container .cx-titlebar{
+	background-color:  #ffd200 !important;
+	border-radius: 10px 10px 0 0 !important;
+	padding: 10px !important;
+}
+
+.cx-widget.cx-common-container.cx-webchat.cx-desktop{
+	border-radius: 10px 10px 0 0 !important;
+	width: 350px !important;
+}
+
+.cx-widget.cx-theme-light input[type=text]{
+	margin: 0 !important;
+}
+.cx-webchat .cx-form .cx-form-control{
+	padding-left: 5px !important;
+}
+
+div.cx-body > div > div.cx-form-wrapper > div.cx-form.cx-form-horizontal > div.cx-button-group.cx-buttons-binary > button.cx-btn.cx-btn-default.i18n, .alert_term{
+	display: none;
+}
+.cx-btn.initBot{
+	width: 100%;
+	background-color: #00448c;
+	color: white;
+	border-radius: 5px;
+}
+
+#formulario > tbody > tr:nth-child(5) > td > label{
+	color:  #00448c !important;
+	font-size: .8rem !important;
+}
+
+#formulario > tbody > tr:nth-child(5) > td > label > span{
+	text-decoration: underline;
+}
+
+[type=checkbox]:checked+label:before{
+	border-right: 2px solid #00448c !important;
+    border-bottom: 2px solid #00448c !important;
+}
+
+.cx-form.cx-form-horizontal{
+	text-align: center !important;
+}
+.alert_term{
+	font-size: .75rem;
+	color: red;
+}
+
+[type=radio]:checked, [type=radio]:not(:checked){
+	opacity: 1 !important;
+}
+div.cx-footer > div{
+	color: white !important;
+	
+}
+
+body > div.cx-widget.cx-window-manager.cx-theme-light > div.cx-dock.cx-desktop.cx-first.cx-dock-view.cx-docked-WebChat > div > div.cx-body > div > div.cx-input-container > table > tbody > tr > td.cx-textarea-cell > textarea{
+	height: 40px !important
+}
+
+/*******************ESTILOS WEBCALLBACK*************/
+.intl-tel-input.allow-dropdown input, .intl-tel-input.allow-dropdown input[type=tel], .intl-tel-input.allow-dropdown input[type=text]{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.intl-tel-input.allow-dropdown .selected-flag{
+	display: none !important;
+}
+.cx-callback .cx-content .cx-wrapper .cx-control-label{
+	color: #5081e1 !important;
+	font-size: bolder !important;
+}
+.cx-callback .cx-content .cx-wrapper .cx-callback-date .cx-callback-schedule input[type=radio], body > div.cx-widget.ow-modal.cx-desktop.cx-theme-light > div > div.cx-button-container > div.cx-button-group.cx-buttons-binary > button.cx-btn.cx-btn-primary.cx-callback-confirm.i18n{
+	opacity: 0 !important;
+}
+
+body > div.cx-widget.ow-modal.cx-desktop.cx-theme-light > div > div.cx-body > div > form > div > div.cx-callback-date > label.cx-radio-inline.cx-control-label.cx-right-away > span{
+	margin-left: 20px !important;
+}
+.cx-btn.initCall{
+	position: relative;
+	left: 30%;
+}
+
+.cx-textarea-cell{
+  display: flex !important;
+}
+
+.cx-message-input.cx-input{
+  width: 80% !important;
+  margin: 5px !important;
+  padding: 5px !important;
+  height: 30px !important;
+  border: 1px solid #DAE1E8 !important;
+}
+
+.btn.enviar_btn{
+  width: 20% !important;
+  margin: 5px 10px !important;
+  padding: 0px 10px !important;
+  background-color: #ffd200 !important;
+  color: black !important;
+  font-weight: bolder !important;
+  border: none !important;
+  border-radius: 5px !important;
+  font-size: .8rem !important;
+}
+
+
+nav{
+  background-color: #525252 !important;
+  color: white !important;
+  background: linear-gradient(#525252, #363636); /* Standard syntax (must be last) */
+  height: 40px !important;
+  line-height: 40px !important;
+
+}
+nav > *{
+  font-family: 'Arimo', sans-serif;
+}
+
+#nav-mobile > li > a{
+  color: white;
+  font-size: 14px;
+}
+
+#nav-mobile{
+  padding-left: 20% !important;
+}
+
+.checkmark {
+  width: 170px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  animation: dash 2s ease-in-out;
+  -webkit-animation: dash 2s ease-in-out;
+}
+
+.spin {
+  animation: spin 2s;
+  -webkit-animation: spin 2s;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+}
+
+body > div > div > div > div.cx-body > form > div > div.cx-form-success > div > p{
+  text-align: center;
+  color: #ffd200 !important;
+}
+
+p {
+  font-family: sans-serif;
+  color: blue;
+  font-size: 15px;
+  text-align: center;
+  animation: text .5s linear .4s;
+  -webkit-animation: text .4s linear .3s;
+}
+
+.form p:last-child, form p{
+  text-align: center !important;
+}
+
+.checkmark {
+  width: 200px;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+
+.path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  animation: dash 2s ease-in-out;
+  -webkit-animation: dash 2s ease-in-out;
+}
+
+.spin {
+  animation: spin 2s;
+  -webkit-animation: spin 2s;
+  transform-origin: 50% 50%;
+  -webkit-transform-origin: 50% 50%;
+}
+
+p {
+  font-family: sans-serif;
+  color: pink;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 20px auto;
+  text-align: center;
+  animation: text .5s linear .4s;
+  -webkit-animation: text .4s linear .3s;
+}
+
+@-webkit-keyframes dash {
+ 0% {
+   stroke-dashoffset: 1000;
+ }
+ 100% {
+   stroke-dashoffset: 0;
+ }
+}
+
+@keyframes dash {
+ 0% {
+   stroke-dashoffset: 1000;
+ }
+ 100% {
+   stroke-dashoffset: 0;
+ }
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes text {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1;
+  }
+}
+  
+  @keyframes text {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1;
+  }
+}
