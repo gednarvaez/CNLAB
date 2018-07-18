@@ -1,6 +1,6 @@
 var localWidgetPlugin;
-
-
+var miPC = find_os_version();
+ 
 (function (o) {
     var f = function () {
         var d = o.location;
@@ -93,7 +93,7 @@ var initLocalWidgetConfiguration = function () {
                    "ConfirmCloseWindow": "Estás seguro que desea cerrar el chat?",
                    "ChatFormPlaceholderFirstName" : "Ingresa tu Nombre",
                    "ChatFormPlaceholderLastName" : "Ingresa tu Apellido",
-                   "ChatFormPlaceholderDni" : "Ingresa tu D.N.I.",
+                   "ChatFormPlaceholderDni" : "Ingresa tu Nro. de cédula",
                    "ChatInputPlaceholder": "Envía un mensaje",
                    "ChatInputSend": "Enviar",
                    "ChatEndQuestion": "¿Estás seguro de querer cerrar la sesión?",
@@ -262,7 +262,7 @@ var initLocalWidgetConfiguration = function () {
         dataURL: gmsServicesConfig.GMSChatURL,
         apikey: '', // For Apigee service only
         userData: {},
-        emojis: false,
+        emojis: true,
         actionsMenu: false,
         uploadsEnabled: false,
         form : {
@@ -303,7 +303,7 @@ var initLocalWidgetConfiguration = function () {
             },
             {
                 id: "cx_webchat_form_dni",
-                name: "dni",
+                name: "cedula",
                 maxlength: "100",
                 type: "Number",
                 placeholder: "@i18n:webchat.ChatFormPlaceholderDni",
@@ -322,6 +322,19 @@ var initLocalWidgetConfiguration = function () {
                 label: "He Leído y acepto los <span>términos y condiciones</span>",
                 id: "cx_webchat_box",
                 name: "TyC",
+
+                // validate: function(event, form, input, label, $, CXBus, Common){
+                //     if(input.is(':checked')){
+                //         jQuery(".alert_term").hide()
+                //         return true
+                //     }
+                //     else{
+                //         jQuery(".alert_term").show();
+                //         return false
+                //     }
+                //     return false
+                // }
+                
             },
             ]
         },
@@ -446,9 +459,7 @@ var initLocalWidgetConfiguration = function () {
 initLocalWidgetConfiguration();
 var chatID = "";
 window._genesys.widgets.onReady = function (CXBus) {
-    localWidgetPlugin = CXBus.registerPlugin('MyLocalCustomization');
-    localWidgetPlugin2 = CXBus.registerPlugin('MyLocalCustomization2');
-    
+    localWidgetPlugin = window._genesys.widgets.bus.registerPlugin('MyLocalCustomization');
 
     jQuery(".prueba1").on("click", function(){
          localWidgetPlugin.command('ChannelSelector.open').done(function (e) {
@@ -461,12 +472,14 @@ window._genesys.widgets.onReady = function (CXBus) {
         _genesys.widgets.bus.subscribe("WebChatService.ajaxResponse", function(JSONResponse){
             chatID = JSONResponse.data.chatId;
         });
-        sessionStorage.setItem('chatID', chatID); 
+       
 
         localWidgetPlugin.subscribe("WebChat.opened", function(e){
+            jQuery('.cx-form-inputs').before("<p class='alert_term'>Por favor acepte los términos y condiciones para continuar</p>");
+            emojiAppend()
             
-            jQuery(".cx-body").append("<iframe id='encuesta_frame' src='bcoEPA.html' height='420px' width='100%' align='center'></iframe>");
-            jQuery(".cx-textarea-cell").append("<button class='btn enviar_btn'>Enviar</button>");
+            jQuery(".cx-body").append("<iframe id='encuesta_frame' src='../../public/view/bcoEPA.html' height='420px' width='100%' align='center'></iframe>");
+            jQuery(".cx-textarea-cell").append("<button class='btn enviar_btn cx-send' data-message='ChatSend'>Enviar</button>");
             jQuery("#encuesta_frame").hide();
             createAudioTag()
             jQuery('.cx-titlebar').on('click', function(event) {
@@ -477,29 +490,38 @@ window._genesys.widgets.onReady = function (CXBus) {
                 localWidgetPlugin.command('WebChat.unminimized');
             });
 
-            var input = document.querySelector(".cx-textmessage");
-            input.addEventListener("keyup", function(event) {
-              event.preventDefault();
-              if (event.keyCode === 13) {
-                document.querySelector(".btn.enviar_btn").click();
-              }
-            });
-
+            jQuery("body > div > div > div > div.cx-body > div > div.cx-transcript-wrapper > div.cx-transcript > div.cx-message.cx-them.cx-Agent.cx-agent.cx-NewTextBubble > div.cx-avatar-wrapper > div").empty().append("<img src='dist/images/logouser.png'>");
 
             jQuery(".btn.enviar_btn").click(function(){
-                localWidgetPlugin.command('WebChatService.sendMessage', {
-                    message: jQuery(".cx-textmessage").val("")
-                }).done(function(e){
-                    //jQuery("#cx-textmessage").focus();
-                    jQuery(".cx-textmessage").val("");
-                    jQuery(".cx-tooltip-menu.cx-emoji div").hide();
-                    
-                }).fail(function(e){
-                });
-            })
+                jQuery('[data-message*="ChatSend"]" ').trigger("click");
+                // localWidgetPlugin.command('WebChatService.sendMessage', {
+                //     message: jQuery(".cx-textmessage").val("")
+                // }).done(function(e){
+                //     jQuery(".cx-textmessage").val("");
+                // }).fail(function(e){
+                // });
+            });
+
+            jQuery('[data-message*="ChatSend"]').on(
+                            'click',
+                            function(event) {
+                                localWidgetPlugin.command('WebChatService.sendMessage', {
+                                    message: $('.cx-message-input').val()
+                                    }).done(function(e){
+                                     $('.cx-message-input').val("");
+                                    // WebChatService sent a message successfully
+                                 
+                                }).fail(function(e){
+                                });                 
+                            }
+                    );
 
             localWidgetPlugin.subscribe('WebChatService.agentConnected', function(e) {
                 var agente = "";
+
+                GetSurveyUrl()
+                sessionStorage.setItem('chatID', chatID); 
+                sessionStorage.setItem("mostrarEncuesta", true);
                 localWidgetPlugin.command('WebChatService.getAgents', {
                 }).done(function(agents){
                     for(agente in agents.agents){
@@ -524,24 +546,41 @@ window._genesys.widgets.onReady = function (CXBus) {
                     }).fail(function(e) {
                     });
                 });
+                jQuery(".cx-message-input").prop("disabled", false);
+                jQuery(".cx-message-input").attr("disabled", false);
                 sessionStorage.setItem("mostrarEncuesta", true);
             });
 
             localWidgetPlugin.subscribe('WebChat.started', function(e){
                 GetSurveyUrl();
+                emojiAppend();
+                jQuery(".cx-message-input").prop("disabled", true);
+                jQuery(".cx-message-input").attr("disabled", true);
             });
 
             localWidgetPlugin.subscribe("WebChat.closed", function(e){
                 jQuery("#encuesta_frame").hide();
             })
 
-            jQuery('.cx-form-inputs').before("<p class='alert_term'>Por favor acepte los términos y condiciones para continuar</p>");
-            /*jQuery('.cx-submit.cx-btn.cx-btn-primary.i18n').replaceWith("<button type='button' class='cx-btn initBot'>Iniciar Chat</button>")
+        localWidgetPlugin.subscribe('WebChat.submitted', function(e){
+            if(jQuery('input[type=checkbox]#cx_webchat_box').prop('checked')){
+                alert("Hola")
+                if(jQuery('input[type=checkbox]').prop('checked') && jQuery("#cx_webchat_form_firstname").val().length != 0 && jQuery("#cx_webchat_form_lastname").val().length != 0){
+                    jQuery(".alert_term, .cx-form.cx-form-horizontal").hide();
+                    jQuery(".cx-transcript-wrapper, .cx-input-container").show();
+                }
+            }
+            else{
+                e.preventDefault();
+                jQuery(".alert_term").show();
+            }
+        });
+            /*jQuery('.cx-form-inputs').before("<p class='alert_term'>Por favor acepte los términos y condiciones para continuar</p>");
+            jQuery('.cx-submit.cx-btn.cx-btn-primary.i18n').replaceWith("<button type='button' class='cx-btn initBot'>Iniciar Chat</button>")
             jQuery(".initBot").on("click", function(){
                 if(jQuery('input[type=checkbox]').prop('checked')){
                     if(jQuery('input[type=checkbox]').prop('checked') && jQuery("#cx_webchat_form_firstname").val().length != 0 && jQuery("#cx_webchat_form_lastname").val().length != 0){
                         jQuery(".alert_term, .cx-form.cx-form-horizontal").hide();
-                        alert("Hola")
                         jQuery(".cx-transcript-wrapper, .cx-input-container").show();
                     }
                 }
@@ -556,10 +595,11 @@ window._genesys.widgets.onReady = function (CXBus) {
                 }
             });
 
-            
+           
 
              localWidgetPlugin.subscribe('WebChatService.ended', function(e) {
                 var isTrue = sessionStorage.getItem("mostrarEncuesta");
+                console.log(isTrue == "true")
                 if (isTrue == "true") {
                     jQuery(".cx-body *").hide();
                     jQuery("#encuesta_frame").show();
@@ -586,7 +626,7 @@ window._genesys.widgets.onReady = function (CXBus) {
     CXBus.subscribe("Callback.opened", function(e){
         jQuery("#cx_form_callback_phone_number").val("");
         jQuery("#cx_form_callback_phone_number").val("");
-        jQuery(".cx-button-group.cx-buttons-binary").append("<button type='submit' onclick='setCall()' class='cx-btn initCall'>Llámame</button>")
+        jQuery("body > div.cx-widget.ow-modal.cx-desktop.cx-theme-light > div > div.cx-button-container > div.cx-button-group.cx-buttons-binary").append("<button type='submit' onclick='setCall()' class='cx-btn initCall'>Llámame</button>")
     });
 
 
@@ -609,31 +649,54 @@ window._genesys.widgets.onReady = function (CXBus) {
 
 function GetSurveyUrl(){
      sessionStorage.setItem('chatID', chatID); 
-     return;
+     sessionStorage.setItem("mostrarEncuesta", "true");
+}
+
+
+function validateInputCall(){
+    var nombre = getDataCall('cx_form_callback_firstname');
+    var numero = getDataCall('cx_form_callback_phone_number');
+    var tiempo = getTimeCall();
+    var isTrue;
+    if(numero){
+        if(numero.length < 9 ){
+            return false;
+        }
+        else isTrue = true;
+    }
+    else if(nombre == "" || nombre == null || tiempo == undefined || tiempo == null){
+        isTrue == false;
+    }
+    return isTrue;
 }
 
 
 function setCall(){
-    var settings = {
-        "url": "https://gms-chile.crossnet.la/genesys/2/openmedia/CNLAB-webcallback",
-        "method": "POST",
-        "headers": {
-          "content-type": "application/x-www-form-urlencoded",
-        },
-        "data": {
-            "userData[first_name]": getDataCall('cx_form_callback_firstname'),
-            "userData[last_name]": getDataCall('cx_form_callback_lastname'),
-            "userData[_customer_number]": getDataCall('cx_form_callback_phone_number'),
-            "userData[Subject]": getDataCall('cx_form_callback_subject'),
-            "userData[email]": getDataCall('cx_form_callback_email'),
-            "userData[_desired_time]":getTimeCall(),
+    if(validateInputCall() == true){
+        var settings = {
+            "url": "https://gms-chile.crossnet.la/genesys/2/openmedia/CNLAB-webcallback",
+            "method": "POST",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+            },
+            "data": {
+                "userData[first_name]": getDataCall('cx_form_callback_firstname'),
+                "userData[last_name]": getDataCall('cx_form_callback_lastname'),
+                "userData[_customer_number]": getDataCall('cx_form_callback_phone_number'),
+                "userData[Subject]": getDataCall('cx_form_callback_subject'),
+                "userData[email]": getDataCall('cx_form_callback_email'),
+                "userData[_desired_time]":getTimeCall(),
+            }
         }
-    }
 
-    jQuery.ajax(settings).done(function (response) {
-        jQuery(".cx-btn.cx-btn-primary.cx-callback-confirm").click();
-    //     jQuery(".cx-btn.cx-btn-primary.cx-callback-confirm").trigger("click");
-     });
+        jQuery.ajax(settings).done(function (response) {
+            jQuery(".cx-btn.cx-btn-primary.cx-callback-confirm").click();
+        //     jQuery(".cx-btn.cx-btn-primary.cx-callback-confirm").trigger("click");
+         });
+    }
+    else{
+         M.toast({html: 'Por favor llene los campos de contacto'});
+    }
 }
 
 
@@ -727,3 +790,80 @@ function createAudioTag(){
     document.body.appendChild(tagO);
     return;
 }
+
+    function emojiAppend(){
+        if(miPC == "win7"){
+            jQuery(".cx-emoji div").empty();
+            jQuery(".cx-emoji div").append(
+                '<span class="widget-emoji">😄</span><span class="widget-emoji">😃</span>'+
+                '<span class="widget-emoji">😊</span><span class="widget-emoji">😉</span><span class="widget-emoji">😍</span><span class="widget-emoji">😘</span>'+
+                '<span class="widget-emoji">😚</span><span class="widget-emoji">😜</span>'+
+                '<span class="widget-emoji">😝</span><span class="widget-emoji">😁</span>'+
+                '<span class="widget-emoji">😔</span><span class="widget-emoji">😌</span><span class="widget-emoji">😒</span><span class="widget-emoji">😞</span>'+
+                '<span class="widget-emoji">😣</span><span class="widget-emoji">😢</span><span class="widget-emoji">😂</span><span class="widget-emoji">😭</span>'+
+                '<span class="widget-emoji">😪</span><span class="widget-emoji">😥</span><span class="widget-emoji">😰</span><span class="widget-emoji">😅</span>'+
+                '<span class="widget-emoji">😓</span><span class="widget-emoji">😩</span><span class="widget-emoji">😫</span><span class="widget-emoji">😨</span>'+
+                '<span class="widget-emoji">😱</span><span class="widget-emoji">😠</span><span class="widget-emoji">😡</span><span class="widget-emoji">😤</span>'+
+                '<span class="widget-emoji">😖</span><span class="widget-emoji">😆</span><span class="widget-emoji">😋</span><span class="widget-emoji">😷</span>'+
+                '<span class="widget-emoji">😎</span><span class="widget-emoji">😵</span><span class="widget-emoji">😲</span>'+
+                '<span class="widget-emoji">😈</span>'+
+                '<span class="widget-emoji">👿</span><span class="widget-emoji">😐</span>');
+            var textarea = jQuery('.cx-webchat div.cx-input-container .cx-message-input');
+            var emojis = document.querySelectorAll('.widget-emoji');
+            for(i = 0; i < emojis.length; i++) {
+              emojis[i].addEventListener('click', function(e){
+                textarea.val(textarea.val() + this.innerHTML);
+                jQuery(".cx-open").removeClass("cx-open");
+              });
+            };
+        }
+        else{
+            jQuery(".cx-emoji div").empty();
+            jQuery(".cx-emoji div").append(
+            '<span class="widget-emoji">😄</span><span class="widget-emoji">😃</span><span class="widget-emoji">😀</span>'+
+            '<span class="widget-emoji">😊</span><span class="widget-emoji">😉</span><span class="widget-emoji">😍</span><span class="widget-emoji">😘</span>'+
+            '<span class="widget-emoji">😚</span><span class="widget-emoji">😗</span><span class="widget-emoji">😙</span><span class="widget-emoji">😜</span>'+
+            '<span class="widget-emoji">😝</span><span class="widget-emoji">😛</span><span class="widget-emoji">😳</span><span class="widget-emoji">😁</span>'+
+            '<span class="widget-emoji">😔</span><span class="widget-emoji">😌</span><span class="widget-emoji">😒</span><span class="widget-emoji">😞</span>'+
+            '<span class="widget-emoji">😣</span><span class="widget-emoji">😢</span><span class="widget-emoji">😂</span><span class="widget-emoji">😭</span>'+
+            '<span class="widget-emoji">😪</span><span class="widget-emoji">😥</span><span class="widget-emoji">😰</span><span class="widget-emoji">😅</span>'+
+            '<span class="widget-emoji">😓</span><span class="widget-emoji">😩</span><span class="widget-emoji">😫</span><span class="widget-emoji">😨</span>'+
+            '<span class="widget-emoji">😱</span><span class="widget-emoji">😠</span><span class="widget-emoji">😡</span><span class="widget-emoji">😤</span>'+
+            '<span class="widget-emoji">😖</span><span class="widget-emoji">😆</span><span class="widget-emoji">😋</span><span class="widget-emoji">😷</span>'+
+            '<span class="widget-emoji">😎</span><span class="widget-emoji">😴</span><span class="widget-emoji">😵</span><span class="widget-emoji">😲</span>'+
+            '<span class="widget-emoji">😟</span><span class="widget-emoji">😦</span><span class="widget-emoji">😧</span><span class="widget-emoji">😈</span>'+
+            '<span class="widget-emoji">👿</span><span class="widget-emoji">😮</span><span class="widget-emoji">😬</span><span class="widget-emoji">😐</span>'+
+            '<span class="widget-emoji">😕</span>');
+            var textarea = jQuery('.cx-webchat div.cx-input-container .cx-message-input');
+            var emojis = document.querySelectorAll('.widget-emoji');
+            for(i = 0; i < emojis.length; i++) {
+              emojis[i].addEventListener('click', function(e){
+                textarea.val(textarea.val() + this.innerHTML);
+                jQuery(".cx-open").removeClass("cx-open");
+              });
+            };
+        }
+    }
+
+
+function find_os_version() { 
+    var ua = navigator.userAgent.toLowerCase(); 
+    if (ua.indexOf("windows nt 5") != -1 ||  ua.indexOf("windows nt 6.0") != -1) { 
+        return 'winXP'; } 
+    if (ua.indexOf("windows nt 6.1") != -1) { 
+        return 'win7'; } 
+    if (ua.indexOf("windows nt 6.2") != -1) { 
+        return 'win8'; }
+    if (ua.indexOf("windows nt 10") != -1) { 
+        return 'win10'; 
+    }
+    else{
+        return "compatible"
+    }
+
+} 
+
+
+$(document).ready(function(){
+  $('.sidenav').sidenav();
+});

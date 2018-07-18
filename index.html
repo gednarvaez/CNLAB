@@ -9,6 +9,8 @@
 	<link rel="stylesheet" href="dist/css/style.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
 	<link rel="icon" type="image/png" sizes="32x32" href="dist/images/favicon-32x32.png">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
 
 </head>
 
@@ -16,16 +18,26 @@
 	background-position: fixed;">
 	<nav>
 	   <div class="nav-wrapper">
+	   	 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><img src="dist/images/menu-button.png" alt=""></a>
 	     <ul id="nav-mobile" class="center hide-on-med-and-down">
-	       <li><a href="index.html">Personas</a></li>
-	       <li><a href="pymes.html">Pymes</a></li>
-	       <li><a href="empresas.html">Empresas</a></li>
-	       <li><a href="nosotros.html">Acerca de Nosotros</a></li>
-	       <li><a href="negocios.html">Negocios Especializados</a></li>
-	       <li><a href="login" class="loginUsuario">Ingresa</a></li>
+	        <li><a href="index.html" style="color: #ffca00; font-style: italic;">Personas</a>
+	       <li><a href="public/view/pymes.html">Pymes</a></li>
+	       <li><a href="public/view/empresas.html">Empresas</a></li>
+	       <li><a href="public/view/nosotros.html">Acerca de Nosotros</a></li>
+	       <li><a href="public/view/negocios.html">Negocios Especializados</a></li>
+	       <!--<li><a href="login" class="loginUsuario">Ingresa</a></li>-->
 	     </ul>
 	   </div>
 	 </nav>
+
+	 <ul class="sidenav" id="mobile-demo">
+	    <li><a href="index.html" style="color: #ffca00; font-style: italic; background-color: black">Personas</a>
+	    <li><a href="public/view/pymes.html">Pymes</a></li>
+	    <li><a href="public/view/empresas.html">Empresas</a></li>
+	    <li><a href="public/view/nosotros.html">Acerca de Nosotros</a></li>
+	    <li><a href="public/view/negocios.html">Negocios Especializados</a></li>
+	 </ul>
+	          
 	<button class="prueba1"><img src="dist/images/call-center.png" class="animated tada" alt=""></button>
 	<script
 	  src="https://code.jquery.com/jquery-3.3.1.min.js"

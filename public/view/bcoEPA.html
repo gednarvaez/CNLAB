@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Evalúa nuestro Chat</title>
 	<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no">
-	<link rel="stylesheet" href="dist/css/style_survey.css">
+	<link rel="stylesheet" href="../../dist/css/style_survey.css">
 </head>
 <body>
 	<div class="container">
@@ -46,9 +46,9 @@
 			<div class="pregunta_dos preguntas">
 				<span><p>¿Recomendarías el chat a otras personas?</p></span>
 				<input type="radio" id="radio15" value="1" name="radio_p3" style="visibility: hidden">
-				<label for="radio15"><img src="dist/images/like.png" alt=""></label>
+				<label for="radio15"><img src="../../dist/images/like.png" alt=""></label>
 				<input type="radio" id="radio16" value="0" name="radio_p3" style="visibility: hidden">
-				<label for="radio16"><img src="dist/images/dislike.png" alt=""></label>
+				<label for="radio16"><img src="../../dist/images/dislike.png" alt=""></label>
 			</div>
 			<!--FORMULARIO
 		<form action="https://was-habitat.crossnet.la/WebAPI802/Habitat_Chat/Survey/Survey_widget.jsp" method="post" id="encuestaHabitat">
@@ -63,7 +63,7 @@
 	<div class="confirmacion">
 		<h5>¡GRACIAS POR RESPONDER <br> NUESTRA ENCUESTA!</h5>
 	</div>
-	<script src="dist/js/jquery-3.3.1.min.js"></script>
+	<script src="../../dist/js/jquery-3.3.1.min.js"></script>
 	<script>
 		
 
@@ -127,6 +127,7 @@
 
 		function confirmation(){
 			$(".container").hide();
+			$(".confirmacion").css("display", "flex")
 			$(".confirmacion").show();
 		}
 	</script>
